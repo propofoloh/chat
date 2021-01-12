@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat</title>
+  <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/main.css" rel="stylesheet">
+  <script src="/webjars/jquery/jquery.min.js"></script>
+  <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+  <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+  <script src="/webjars/handlebars/4.0.11-1/handlebars.min.js"></script>
+
+</head>
+
+
+<script type="text/javascript">
+	var ws;
+
+	function wsOpen(){
+		ws = new WebSocket("ws://" + location.host + "/chating");
+		wsEvt();
+	}
+		
+	function wsEvt() {
+		ws.onopen = function(data){
+			//소켓이 열리면 초기화 세팅하기
+		}
+		
+		ws.onmessage = function(data) {
+			var msg = data.data;
+			if(msg != null && msg.trim() != ''){
+				$("#chating").append("<p>" + msg + "</p>");
+			}
+		}
+
+		document.addEventListener("keypress", function(e){
+			if(e.keyCode == 13){ //enter press
+				send();
+			}
+		});
+	}
+
+
+</script>
+
+<body>
+<div class="logo" style="width: 500%; height: 50%;">
+<img src="" align="center"/>
+</div>
+<div id="main-content" class="container">
+  <div class="row">
+    <textarea id="chat-content" rows="30" style="width:100%;" readonly></textarea>
+  </div>
+  <div class="row" id="chat-action-div"></div>
+</div>
+
+<script language=JavaScript src="app.js" charset='utf-8'></script>
+
+<script id="wait-chat-template" type="text/x-handlebars-template">
+  <div class="input-group">
+    <button class="btn btn-outline-secondary" style="width:100%;" type="button" id="btnJoin">start</button>
+  </div>
+</script>
+
+<script id="send-chat-template" type="text/x-handlebars-template">
+  <div class="input-group">
+    <textarea id="chat-message-input" class="form-control custom-control" rows="3" style="resize:none"></textarea>
+    <span class="input-group-addon btn btn-primary" id="btnSend">Send</span>
+  </div>
+</script>
+
+<footer>
+<!-- Start of CuterCounter Code -->
+<p>&nbsp;총 방문자 수 : <img src="https://www.cutercounter.com/hits.php?id=hmxkkcoo&nd=6&style=101" border="0" alt="visitor counter"></a></p>
+<!-- End of CuterCounter Code -->
+</footer>
+</body>
+</html>
